@@ -21,3 +21,20 @@ model_select <- function(covariates, responses, cutoff) {
     return(summary(new_reg)$coefficients[, "Pr(>|t|)"][-1])
   }
 }
+
+# Q2c
+
+run_simulation <- function(n_trials, n, p, cutoff) {
+  pvalues <- vector()
+  for (i in 1:n_trials) {
+    res <- generate_data(n, p)
+    covariates <- res$covariates
+    responses <- res$responses
+    pvals <- model_select(covariates, responses, cutoff)
+    pvalues <- c(pvalues, pvals)
+  }
+  hist(pvalues)
+}
+
+run_simulation(n_trials = 1000, n = 1000, p = 10, c = 0.05)
+run_simulation(n_trials = 1000, n <- c(100, 1000, 10000), p <- c(10, 20, 50), cutoff = 0.05)
