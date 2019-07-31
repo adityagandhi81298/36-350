@@ -33,8 +33,17 @@ run_simulation <- function(n_trials, n, p, cutoff) {
     pvals <- model_select(covariates, responses, cutoff)
     pvalues <- c(pvalues, pvals)
   }
-  hist(pvalues)
+  hist(as.numeric(pvalues))
 }
 
-run_simulation(n_trials = 1000, n = 1000, p = 10, c = 0.05)
-run_simulation(n_trials = 1000, n <- c(100, 1000, 10000), p <- c(10, 20, 50), cutoff = 0.05)
+n <- c(100, 1000, 10000)
+p <- c(10, 20, 50)
+n_trials = 1000
+cutoff <- 0.05
+
+res_df <- expand.grid(n, p, n_trials, cutoff)
+colnames(res_df) <- c("n", "p", "n_trials", "cutoff")
+
+for (i in 1:nrow(res_df)){
+  run_simulation(n_trials = res_df[i, "n_trials"], n = res_df[i, "n"], p = res_df[i, "p"], cutoff = res_df[i, "cutoff"])
+}
